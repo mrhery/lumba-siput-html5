@@ -264,8 +264,8 @@ var initTop = 150;
 var idle = $("#idle")[0];
 var racing = $("#racing")[0];
 
-idle.volume = 0.1;
-racing.volume = 0.1;
+idle.volume = 0.2;
+racing.volume = 0.2;
 
 restart.on("click", function(){
 	siputs = {};
@@ -395,7 +395,7 @@ setInterval(function(){
 			let siput = $(this);
 			
 			let cLeft = parseInt(siput.css("left"));
-			let rSpeed = Math.ceil(Math.random() * 10);
+			let rSpeed = Math.ceil(Math.random() * 15);
 			let nLeft = cLeft + rSpeed;
 			
 			if(nLeft < lPenamat){
@@ -441,7 +441,7 @@ setInterval(function(){
 			}
 		});
 	}
-}, 100);
+}, 150);
 
 var height = parseInt($("body").css("height"));
 
