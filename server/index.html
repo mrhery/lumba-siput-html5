@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lumba Siput vHTML5</title>
+	<meta charset="utf-8" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap" rel="stylesheet">
+<style>
+	body, html {
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		background-image: url(./bg.jpg);
+		background-repeat: no-repeat;
+		background-size: cover;
+		overflow: hidden;
+		font-family: "Segoe UI";
+	}
+	
+	.bungee-tint-regular {
+	  font-family: "Bungee Tint", sans-serif;
+	  font-weight: 400;
+	  font-style: normal;
+	}
+	
+	.siput {
+		width: 150px;
+		z-index: 2;
+	}
+	
+	.siput1 {
+		position: fixed;
+		top: 35%;
+		transform: translate(0, -50%);
+	}
+	
+	.siput2 {
+		position: fixed;
+		top: 65%;
+		transform: translate(0, -50%);
+	}
+	
+	.divider {
+		border: 5px dotted white;
+		position: fixed;
+		width: 100%;
+		top: 50%;
+		transform: translate(0, -50%);
+	}
+	
+	.control-panel {
+		background-color: rgba(0, 0, 0, 0.7);
+		position: fixed;
+		padding: 10px;
+	}
+	
+	.save {
+		background-color: blue;
+		color: white;
+		font-size: 16pt;
+		border: none;
+		border-radius: 5px;
+	}
+	
+	.add-siput {
+		background-color: orange;
+		color: white;
+		font-size: 16pt;
+		border: none;
+		border-radius: 5px;
+	}
+	
+	.start {
+		background-color: green;
+		color: white;
+		font-size: 16pt;
+		border: none;
+		border-radius: 5px;
+	}
+	
+	.reset {
+		background-color: purple;
+		color: white;
+		font-size: 16pt;
+		border: none;
+		border-radius: 5px;
+	}
+	
+	.score {
+		background-color: red;
+		color: white;
+		font-size: 16pt;
+		border: none;
+		border-radius: 5px;
+	}
+	
+	.restart {
+		background-color: white;
+		color: black;
+		font-size: 16pt;
+		border: none;
+		border-radius: 5px;
+	}
+	
+	.penamat {
+		background-color: rgba(255, 255, 255, 0.6);
+		position: fixed;
+		width: 200px;
+		height: 80%;
+		right: 20px;
+		top: 50%;
+		transform: translate(0, -50%);
+		z-index: 1;
+	}
+	
+	.menang {
+		display: none;
+		position: fixed;
+		padding: 10px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: rgba(0, 0, 0, 0.7);
+		color: white;
+		text-align: center;
+	}
+	
+	.pemenang {
+		width: 150px;
+	}
+	
+	.balloon {
+		position: absolute;
+		width: 150px;
+		display: none;
+	}
+	
+	.start-page {
+		position: fixed;
+		padding: 10px;
+		top: 20px;
+		left: 50%;
+		transform: translate(-50%, 0);
+		background-color: rgba(0, 0, 0, 0.7);
+		color: white;
+		text-align: center;
+		width: 900px;
+		z-index: 10;
+	}
+	
+	.siput-image {
+		max-width: 100px;
+	}
+	
+	.siput-holder {
+		width: 100px;
+		height: 100px;
+		position: fixed;
+		left: 0;
+		color: white;
+		text-align: center;
+	}
+	
+	.siput-holder > img {
+		width: 100px;
+		height: 70px;
+	}
+</style>
+</head>
+
+<body>
+	<div class="control-panel">
+		<button class="start">
+			Start
+		</button>
+		
+		<button class="reset">
+			Reset
+		</button>
+		
+		<button class="restart">
+			Restart
+		</button>
+	</div>
+	
+	<div class="start-page">
+		<h1 class="bungee-tint-regular">Lumba Siput HTML5</h1>
+		
+		<button class="add-siput">
+			+ Tambah Siput
+		</button><br /><br />
+		
+		<table border="1" width="100%">
+			<tbody id="list-siput">
+			</tbody>
+		</table>
+		<br /><br />
+		
+		<button class="save">
+			Save
+		</button>
+	</div>
+
+	<!--
+	<img src="./snail.png" class="siput siput1" />
+	<img src="./snail2.png" class="siput siput2" />
+	-->
+	
+	<img class="balloon" style="left: 70px; bottom: -500px;" src="./b1.png"  />
+	<img class="balloon" style="left: 30px; bottom: -700px;" src="./b2.png"  />
+	<img class="balloon" style="left: 70px; bottom: -850px;" src="./b2.png" />
+	<img class="balloon" style="left: 150px; bottom: -250px;" src="./b1.png"  />
+	<img class="balloon" style="right: 0px; bottom: -70px;" src="./b2.png"  />
+	<img class="balloon" style="right: 500px; bottom: -100px;" src="./b1.png"  />
+	<img class="balloon" style="right: 10px; bottom: -900px;" src="./b2.png"  />
+	<img class="balloon" style="right: 80px; bottom: -400px;" src="./b1.png"  />
+	
+	<div class="penamat"></div>
+	
+	<div class="menang">
+		<h1 class="bungee-tint-regular">Tahniah</h1>
+		
+		<h3 class="bungee-tint-regular">Juara Lumba Siput</h3>
+		
+		<img src="" class="pemenang" /><br />
+		
+		<b id="nama-pemenang"></b>
+		
+		<h4>Score Board</h4>
+		<table>
+			<thead>
+				<tr>
+					<td>Image</td>
+					<td>Name</td>
+					<td>Score</td>
+				</tr>
+			</thead>
+			<tbody id="score-board"></tbody>
+		</table>
+	</div>
+
+<audio src="./idle.mp3" class="player" id="idle" autoplay loop></audio>
+<audio src="./racing.mp3" class="player" id="racing" loop></audio>
+<script>
+var isStarted = false;
+var start = $(".start");
+var reset = $(".reset");
+var penamat = $(".penamat");
+var menang = $(".menang");
+var restart = $(".restart");
+var pemenang = $(".pemenang");
+var balloons = $(".balloon");
+var addSiput = $(".add-siput");
+var startPage = $(".start-page");
+var save = $(".save");
+var lPenamat = parseInt(penamat.css("left"));
+var winner = false;
+var siputs = {};
+var initTop = 150;
+
+var idle = $("#idle")[0];
+var racing = $("#racing")[0];
+
+idle.volume = 0.2;
+racing.volume = 0.2;
+
+var ws = new WebSocket("ws://127.0.0.1:8081/");
+
+ws.onopen = function(){
+	console.log("connected");
+	ws.onmessage = function(m){
+		let data = m.data;
+		
+		jalan(data);
+	};
+};
+
+ws.onerror = function(){
+	//console.log("error");
+};
+
+restart.on("click", function(){
+	siputs = {};
+	winner = false;
+	$(".siput-holder").remove();
+	$(".siput-item").remove();
+	menang.hide();
+	balloons.hide();
+	startPage.show();
+	racing.pause();
+	idle.play();
+});
+
+save.on("click", function(){
+	siputs = [];
+	var i = 0;
+	
+	$(".siput-holder").remove();
+	
+	$(".siput-item").each(function(){
+		let id = $(this).data("siput-id");
+		let nama = $(".siput-nama[data-nama="+ id +"]").val();
+		let negeri = $(".siput-negeri[data-negeri="+ id +"]").val();
+		let image = $(".siput-image[data-image="+ id +"]").attr("src");
+		
+		siputs["siput-" + id] = {
+			nama: nama,
+			negeri: negeri,
+			image: image,
+			win: 0
+		};
+		
+		let top = (initTop + (100 * i)) + "px";
+		
+		$("body").append('\
+			<div class="siput-holder" data-siput-id="'+ id +'" style="top: '+ top +'">\
+				<img src="'+ image +'" />\
+				<b>'+ nama +' ('+ negeri +')</b>\
+			</div>\
+		');
+		
+		i++;
+	});
+	
+	startPage.hide();
+});
+
+addSiput.on("click", function(){
+	let id = Math.ceil(Math.random() * 1000000);
+	
+	$("#list-siput").append('\
+		<tr class="siput-item" data-siput-id="'+ id +'">\
+			<td width="15%">\
+				<img class="siput-image" data-image="'+ id +'" /><br />\
+				\
+				<input class="siput-picker" type="file" data-picker="'+ id +'"  />\
+			</td>\
+			<td>\
+				<input class="siput-nama" type="text" placeholder="Nama" data-nama="'+ id +'" />\
+			</td>\
+			<td>\
+				<input class="siput-negeri" type="text" placeholder="Negeri" data-negeri="'+ id +'" />\
+			</td>\
+		</tr>\
+	');
+});
+
+$(document).on("change", ".siput-picker", function(){
+	let id = $(this).data("picker");
+	
+	let input = $(this)[0];
+	
+	var reader = new FileReader();
+
+	reader.onload = function (e) {
+		$(".siput-image[data-image="+ id +"]").prop("src", e.target.result);
+	}
+
+	reader.readAsDataURL(input.files[0]);
+});
+
+start.on("click", function(){
+	if(isStarted){
+		isStarted = false;
+		
+		$(this).css("background-color", "green");
+		$(this).text("Start");
+		
+		reset.removeAttr("disabled");
+		
+		racing.pause();
+		idle.play();
+	}else{
+		isStarted = true;
+		
+		$(this).css("background-color", "red");
+		$(this).text("Stop");
+		
+		reset.attr("disabled", true);
+		
+		racing.play();
+		idle.pause();
+	}
+});
+
+reset.on("click", function(){
+	$(".siput-holder").each(function(){
+		let siput = $(this);
+		
+		siput.css("left", "0px");
+	});
+
+	menang.hide();
+	balloons.hide();
+	winner = false;
+	racing.pause();
+	idle.play();
+});
+
+function jalan(data){
+	if(isStarted){		
+		$(".siput-holder").each(function(){
+			let siput = $(this);
+			
+			if(siputs["siput-" + siput.data("siput-id")].negeri == data){
+				let cLeft = parseInt(siput.css("left"));
+				//let rSpeed = Math.ceil(Math.random() * 15);
+				let rSpeed = 5;
+				let nLeft = cLeft + rSpeed;
+				
+				if(nLeft < lPenamat){
+					siput.css("left", nLeft + "px");
+				}else{
+					if(!winner){
+						winner = true;
+						pemenang.prop("src", siput.children("img").attr("src"));
+						$("#nama-pemenang").text(siput.children("b").text());
+						menang.show();
+						balloons.show();
+						
+						siputs["siput-" + siput.data("siput-id")].win += 1;
+					}else{
+						isStarted = false;
+			
+						start.css("background-color", "green");
+						start.text("Start");
+						
+						reset.removeAttr("disabled");
+						
+						$("#score-board").html("");
+						
+						siputs.sort(function(a, b) { 
+							return a.win - b.win;
+						})
+						
+						for(let k in siputs){
+							let s = siputs[k];
+							
+							$("#score-board").append('\
+								<tr>\
+									<td>\
+										<img src="'+ s.image  +'" width="100px" />\
+									</td>\
+									<td>'+ s.nama +' ('+ s.negeri +')</td>\
+									<td>'+ s.win +'</td>\
+								</tr>\
+							');
+						}
+						
+					}
+				}
+			}			
+		});
+	}
+}
+
+/*
+setInterval(function(){
+	if(isStarted){
+		Math.random();
+		Math.random();
+		Math.random();
+		
+		$(".siput-holder").each(function(){
+			let siput = $(this);
+			
+			let cLeft = parseInt(siput.css("left"));
+			let rSpeed = Math.ceil(Math.random() * 15);
+			let nLeft = cLeft + rSpeed;
+			
+			if(nLeft < lPenamat){
+				siput.css("left", nLeft + "px");
+			}else{
+				if(!winner){
+					winner = true;
+					pemenang.prop("src", siput.children("img").attr("src"));
+					$("#nama-pemenang").text(siput.children("b").text());
+					menang.show();
+					balloons.show();
+					
+					siputs["siput-" + siput.data("siput-id")].win += 1;
+				}else{
+					isStarted = false;
+		
+					start.css("background-color", "green");
+					start.text("Start");
+					
+					reset.removeAttr("disabled");
+					
+					$("#score-board").html("");
+					
+					siputs.sort(function(a, b) { 
+						return a.win - b.win;
+					})
+					
+					for(let k in siputs){
+						let s = siputs[k];
+						
+						$("#score-board").append('\
+							<tr>\
+								<td>\
+									<img src="'+ s.image  +'" width="100px" />\
+								</td>\
+								<td>'+ s.nama +' ('+ s.negeri +')</td>\
+								<td>'+ s.win +'</td>\
+							</tr>\
+						');
+					}
+					
+				}
+			}
+		});
+	}
+}, 150);
+*/
+
+var height = parseInt($("body").css("height"));
+
+setInterval(function(){
+	$(".balloon").each(function(){
+		var bottom = parseInt($(this).css("bottom"));
+		
+		bottom += 5;
+		
+		if(bottom > (height + 100)){
+			bottom = -150;
+		}
+		
+		$(this).css("bottom", bottom + "px");
+	});
+}, 20);
+
+</script>
+</body>
+</html>
